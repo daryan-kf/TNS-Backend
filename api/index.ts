@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import {addPlayerAssessment} from "../src/controllers/playerAssessment";
+import playerRoutes from "../src/routes/player";
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 // Player assessment route
-app.post("/player/assessment", addPlayerAssessment);
+app.post("/player", playerRoutes);
 
 // Export for Vercel
 export default app;

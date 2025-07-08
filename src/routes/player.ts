@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {addPlayerAssessment} from "../controllers/playerAssessment";
+import {addPlayerAssessment} from "../controllers/player/assessment";
 
 const router = Router();
 
