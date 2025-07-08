@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 // Player assessment route
-app.post("/api/players/assessment", addPlayerAssessment);
+app.post("/player/assessment", addPlayerAssessment);
 
 // Export for Vercel
 export default app;
