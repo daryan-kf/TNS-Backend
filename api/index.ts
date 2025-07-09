@@ -16,15 +16,16 @@ app.get("/", (req, res) => {
     timestamp: new Date().toISOString(),
     routes: [
       "GET /",
-      "POST /player/assessment",
-      "GET /player/performance",
-      "GET /player/performance/:playerId",
+      "POST /players/assessment",
+      "GET /players/performance",
+      "GET /players/performance/:playerId",
+      "GET /players/search",
     ],
   });
 });
 
 // Player routes - Use app.use() to handle all HTTP methods
-app.use("/player", playerRoutes);
+app.use("/players", playerRoutes);
 
 // Export for Vercel
 export default app;

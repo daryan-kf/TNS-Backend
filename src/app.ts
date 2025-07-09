@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 });
 
 // Player routes
-app.use("/player", playerRoutes);
+app.use("/players", playerRoutes);
 
 // Start server
 app.listen(PORT, () => {
