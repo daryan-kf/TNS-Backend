@@ -1,11 +1,11 @@
 import {Router} from "express";
-import {addPlayerAssessment} from "../controllers/player/assessment";
+import {addPlayerAssessment} from "@/src/controllers/player/assessment";
 import {
   getAllPlayersPerformance,
   getPlayerPerformanceById,
-} from "../controllers/player/performance";
+} from "@/src/controllers/player/performance";
 
-import {searchPlayers} from "../controllers/player/search";
+import {searchPlayers} from "@/src/controllers/player/search";
 
 const router = Router();
 

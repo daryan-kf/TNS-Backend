@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import playerRoutes from "../src/routes/player";
+import playerRoutes from "@/src/routes/player";
 
 const app = express();
 

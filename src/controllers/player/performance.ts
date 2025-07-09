@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import mockData from "../../../mochData.json";
+import mockData from "@/mochData.json";
 
 const mockPlayersData = mockData.playersData;
 // GET method to retrieve all player performance data

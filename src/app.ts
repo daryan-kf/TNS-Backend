@@ -1,5 +1,5 @@
 import express from "express";
-import playerRoutes from "./routes/player";
+import playerRoutes from "@/src/routes/player";
 
 const app = express();
 const PORT = 3000;
