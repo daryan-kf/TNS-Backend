@@ -10,8 +10,12 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["api/**/*", "src/**/*"],
+  "include": ["api/**/*", "src/**/*", "types/**/*"],
   "exclude": ["node_modules", "dist", ".vercel"]
 }
