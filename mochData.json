@@ -1,0 +1,314 @@
+{
+  "playersData": [
+    {
+      "player_id": "uuid-001",
+      "name": "Marcus Johnson",
+      "latest_session": {
+        "timestamp": "2025-01-07T18:45:32.123Z",
+        "duration_min": 135,
+        "avg_hr": 142,
+        "max_hr": 178,
+        "hrv_rmssd": 38.5,
+        "fatigue_score": 6.8,
+        "load_score": 285,
+        "movement_intensity_score": 7.2,
+        "hr_zones": {
+          "zone1": 8,
+          "zone2": 15,
+          "zone3": 12,
+          "zone4": 8,
+          "zone5": 2
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 5,
+        "avg_fatigue_score": 5.9,
+        "avg_load_score": 312,
+        "recovery_trend": "improving"
+      },
+      "recovery_status": {
+        "score": 72,
+        "trend": "stable"
+      }
+    },
+    {
+      "player_id": "uuid-002",
+      "name": "Sarah Williams",
+      "latest_session": {
+        "timestamp": "2025-01-07T17:30:15.456Z",
+        "duration_min": 120,
+        "avg_hr": 138,
+        "max_hr": 165,
+        "hrv_rmssd": 42.1,
+        "fatigue_score": 5.2,
+        "load_score": 245,
+        "movement_intensity_score": 6.8,
+        "hr_zones": {
+          "zone1": 12,
+          "zone2": 18,
+          "zone3": 10,
+          "zone4": 6,
+          "zone5": 1
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 6,
+        "avg_fatigue_score": 4.8,
+        "avg_load_score": 268,
+        "recovery_trend": "stable"
+      },
+      "recovery_status": {
+        "score": 78,
+        "trend": "improving"
+      }
+    },
+    {
+      "player_id": "uuid-003",
+      "name": "David Rodriguez",
+      "latest_session": {
+        "timestamp": "2025-01-07T16:15:45.789Z",
+        "duration_min": 150,
+        "avg_hr": 145,
+        "max_hr": 182,
+        "hrv_rmssd": 35.8,
+        "fatigue_score": 7.5,
+        "load_score": 320,
+        "movement_intensity_score": 8.1,
+        "hr_zones": {
+          "zone1": 6,
+          "zone2": 12,
+          "zone3": 15,
+          "zone4": 12,
+          "zone5": 4
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 4,
+        "avg_fatigue_score": 6.8,
+        "avg_load_score": 345,
+        "recovery_trend": "declining"
+      },
+      "recovery_status": {
+        "score": 65,
+        "trend": "declining"
+      }
+    },
+    {
+      "player_id": "uuid-004",
+      "name": "Emily Chen",
+      "latest_session": {
+        "timestamp": "2025-01-07T19:20:10.234Z",
+        "duration_min": 110,
+        "avg_hr": 135,
+        "max_hr": 160,
+        "hrv_rmssd": 45.2,
+        "fatigue_score": 4.6,
+        "load_score": 220,
+        "movement_intensity_score": 6.2,
+        "hr_zones": {
+          "zone1": 15,
+          "zone2": 20,
+          "zone3": 8,
+          "zone4": 4,
+          "zone5": 1
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 7,
+        "avg_fatigue_score": 4.2,
+        "avg_load_score": 235,
+        "recovery_trend": "improving"
+      },
+      "recovery_status": {
+        "score": 85,
+        "trend": "improving"
+      }
+    },
+    {
+      "player_id": "uuid-005",
+      "name": "Michael Thompson",
+      "latest_session": {
+        "timestamp": "2025-01-07T14:45:22.567Z",
+        "duration_min": 145,
+        "avg_hr": 148,
+        "max_hr": 185,
+        "hrv_rmssd": 33.7,
+        "fatigue_score": 8.1,
+        "load_score": 365,
+        "movement_intensity_score": 8.8,
+        "hr_zones": {
+          "zone1": 5,
+          "zone2": 10,
+          "zone3": 14,
+          "zone4": 15,
+          "zone5": 6
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 3,
+        "avg_fatigue_score": 7.9,
+        "avg_load_score": 380,
+        "recovery_trend": "declining"
+      },
+      "recovery_status": {
+        "score": 58,
+        "trend": "declining"
+      }
+    },
+    {
+      "player_id": "uuid-006",
+      "name": "Jessica Davis",
+      "latest_session": {
+        "timestamp": "2025-01-07T20:10:35.890Z",
+        "duration_min": 125,
+        "avg_hr": 140,
+        "max_hr": 172,
+        "hrv_rmssd": 40.3,
+        "fatigue_score": 5.8,
+        "load_score": 270,
+        "movement_intensity_score": 7.0,
+        "hr_zones": {
+          "zone1": 10,
+          "zone2": 16,
+          "zone3": 11,
+          "zone4": 7,
+          "zone5": 2
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 5,
+        "avg_fatigue_score": 5.5,
+        "avg_load_score": 285,
+        "recovery_trend": "stable"
+      },
+      "recovery_status": {
+        "score": 74,
+        "trend": "stable"
+      }
+    },
+    {
+      "player_id": "uuid-007",
+      "name": "Ryan Martinez",
+      "latest_session": {
+        "timestamp": "2025-01-07T15:30:48.123Z",
+        "duration_min": 160,
+        "avg_hr": 152,
+        "max_hr": 190,
+        "hrv_rmssd": 30.9,
+        "fatigue_score": 8.7,
+        "load_score": 410,
+        "movement_intensity_score": 9.2,
+        "hr_zones": {
+          "zone1": 4,
+          "zone2": 8,
+          "zone3": 12,
+          "zone4": 18,
+          "zone5": 8
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 4,
+        "avg_fatigue_score": 8.2,
+        "avg_load_score": 395,
+        "recovery_trend": "declining"
+      },
+      "recovery_status": {
+        "score": 52,
+        "trend": "declining"
+      }
+    },
+    {
+      "player_id": "uuid-008",
+      "name": "Ashley Wilson",
+      "latest_session": {
+        "timestamp": "2025-01-07T13:15:20.456Z",
+        "duration_min": 105,
+        "avg_hr": 132,
+        "max_hr": 155,
+        "hrv_rmssd": 48.1,
+        "fatigue_score": 3.9,
+        "load_score": 195,
+        "movement_intensity_score": 5.5,
+        "hr_zones": {
+          "zone1": 18,
+          "zone2": 22,
+          "zone3": 6,
+          "zone4": 3,
+          "zone5": 0
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 6,
+        "avg_fatigue_score": 3.8,
+        "avg_load_score": 210,
+        "recovery_trend": "improving"
+      },
+      "recovery_status": {
+        "score": 88,
+        "trend": "improving"
+      }
+    },
+    {
+      "player_id": "uuid-009",
+      "name": "James Anderson",
+      "latest_session": {
+        "timestamp": "2025-01-07T17:45:55.789Z",
+        "duration_min": 140,
+        "avg_hr": 146,
+        "max_hr": 180,
+        "hrv_rmssd": 36.4,
+        "fatigue_score": 7.2,
+        "load_score": 315,
+        "movement_intensity_score": 7.8,
+        "hr_zones": {
+          "zone1": 7,
+          "zone2": 13,
+          "zone3": 13,
+          "zone4": 10,
+          "zone5": 3
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 5,
+        "avg_fatigue_score": 6.5,
+        "avg_load_score": 325,
+        "recovery_trend": "stable"
+      },
+      "recovery_status": {
+        "score": 68,
+        "trend": "stable"
+      }
+    },
+    {
+      "player_id": "uuid-010",
+      "name": "Nicole Taylor",
+      "latest_session": {
+        "timestamp": "2025-01-07T12:00:12.234Z",
+        "duration_min": 115,
+        "avg_hr": 136,
+        "max_hr": 168,
+        "hrv_rmssd": 43.6,
+        "fatigue_score": 5.1,
+        "load_score": 240,
+        "movement_intensity_score": 6.5,
+        "hr_zones": {
+          "zone1": 13,
+          "zone2": 17,
+          "zone3": 9,
+          "zone4": 5,
+          "zone5": 1
+        }
+      },
+      "weekly_summary": {
+        "total_sessions": 6,
+        "avg_fatigue_score": 4.9,
+        "avg_load_score": 255,
+        "recovery_trend": "improving"
+      },
+      "recovery_status": {
+        "score": 76,
+        "trend": "improving"
+      }
+    }
+  ]
+}
