@@ -5,6 +5,8 @@ import {
   getPlayerPerformanceById,
 } from "../controllers/player/performance";
 
+import {searchPlayers} from "../controllers/player/search";
+
 const router = Router();
 
 // Assessment routes
@@ -13,5 +15,8 @@ router.post("/assessment", addPlayerAssessment);
 // Performance routes
 router.get("/performance", getAllPlayersPerformance);
 router.get("/performance/:playerId", getPlayerPerformanceById);
+
+// Search routes
+router.get("/search", searchPlayers);
 
 export default router;
