@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.ts",
-      "use": "@vercel/node"
+  "functions": {
+    "api/index.ts": {
+      "runtime": "nodejs20.x"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/(.*)",
@@ -14,5 +13,9 @@
   ],
   "env": {
     "NODE_ENV": "production"
+  },
+  "build": {
+    "command": "npm run build",
+    "outputDirectory": "dist"
   }
 }

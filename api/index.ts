@@ -24,8 +24,17 @@ app.get("/", (req, res) => {
   });
 });
 
-// Player routes - Use app.use() to handle all HTTP methods
+// Player routes
 app.use("/players", playerRoutes);
+
+// Start server for local development (not on Vercel)
+if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`🚀 TNS Backend Server running on port ${PORT}`);
+    console.log(`🌐 Visit: http://localhost:${PORT}`);
+  });
+}
 
 // Export for Vercel
 export default app;
