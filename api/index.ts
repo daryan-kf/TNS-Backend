@@ -14,12 +14,17 @@ app.get("/", (req, res) => {
   res.json({
     message: "TNS Backend API Running on Vercel! 🚀",
     timestamp: new Date().toISOString(),
-    routes: ["GET /", "POST /api/players/assessment"],
+    routes: [
+      "GET /",
+      "POST /player/assessment",
+      "GET /player/performance",
+      "GET /player/performance/:playerId",
+    ],
   });
 });
 
-// Player assessment route
-app.post("/player", playerRoutes);
+// Player routes - Use app.use() to handle all HTTP methods
+app.use("/player", playerRoutes);
 
 // Export for Vercel
 export default app;
