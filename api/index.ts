@@ -19,9 +19,9 @@ app.get("/", (req, res) => {
     timestamp: new Date().toISOString(),
     routes: [
       "GET /",
+      "GET /players",
+      "GET /players/:playerId",
       "POST /players/assessment",
-      "GET /players/performance",
-      "GET /players/performance/:playerId",
       "GET /players/search",
     ],
   });

@@ -1,22 +1,21 @@
 import {Router} from "express";
 import {addPlayerAssessment} from "@/src/controllers/player/assessment";
-import {
-  getAllPlayersPerformance,
-  getPlayerPerformanceById,
-} from "@/src/controllers/player/performance";
+import {getAllPlayers, getPlayerById} from "@/src/controllers/player";
 
 import {searchPlayers} from "@/src/controllers/player/search";
 
 const router = Router();
 
+// Player routes
+router.get("/", getAllPlayers);
+
+// Search routes (must come before /:id)
+router.get("/search", searchPlayers);
+
+// Specific player by ID (must come after /search)
+router.get("/:id", getPlayerById);
+
 // Assessment routes
 router.post("/assessment", addPlayerAssessment);
-
-// Performance routes
-router.get("/performance", getAllPlayersPerformance);
-router.get("/performance/:playerId", getPlayerPerformanceById);
-
-// Search routes
-router.get("/search", searchPlayers);
 
 export default router;
