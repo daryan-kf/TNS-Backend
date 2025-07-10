@@ -8,7 +8,7 @@ export const searchPlayers = (req: Request, res: Response) => {
   try {
     const {query} = req.query;
 
-    const searchQuery = query?.toString().toLowerCase() || "";
+    const searchQuery = query?.toString().toLowerCase().trim() || "";
 
     console.log(
       `🔍 Searching for players with query: "${
@@ -18,7 +18,7 @@ export const searchPlayers = (req: Request, res: Response) => {
 
     // Filter players based on the search query
     const players =
-      searchQuery === ""
+      searchQuery.length === 0
         ? mockPlayersData // Return all players if no query is provided
         : mockPlayersData.filter(player =>
             player.name.toLowerCase().includes(searchQuery)
