@@ -10,9 +10,6 @@ interface PlayerAssessmentData {
 }
 
 export const addPlayerAssessment = (req: Request, res: Response) => {
-  console.log("🏥 Physio adding player assessment data!");
-  console.log("📊 Assessment Data Received:");
-
   const assessmentData: PlayerAssessmentData = req.body;
 
   // Log each field nicely
