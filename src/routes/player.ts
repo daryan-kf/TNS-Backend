@@ -1,5 +1,9 @@
 import {Router} from "express";
-import {addPlayerAssessment} from "@/src/controllers/player/assessment";
+import {
+  addPlayerAssessment,
+  getPlayerAssessment,
+  updatePlayerAssessment,
+} from "@/src/controllers/player/assessment";
 import {getAllPlayers, getPlayerById} from "@/src/controllers/player";
 
 import {searchPlayers} from "@/src/controllers/player/search";
@@ -16,6 +20,8 @@ router.get("/search", searchPlayers);
 router.get("/:id", getPlayerById);
 
 // Assessment routes
-router.post("/assessment", addPlayerAssessment);
+router.post("/:id/assessment", addPlayerAssessment);
+router.get("/:id/assessment/:assessmentId", getPlayerAssessment);
+router.put("/:id/assessment/:assessmentId", updatePlayerAssessment);
 
 export default router;
