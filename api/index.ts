@@ -17,13 +17,6 @@ app.get("/", (req, res) => {
   res.json({
     message: "TNS Backend API Running on Vercel! 🚀",
     timestamp: new Date().toISOString(),
-    routes: [
-      "GET /",
-      "GET /players",
-      "GET /players/:playerId",
-      "POST /players/assessment",
-      "GET /players/search",
-    ],
   });
 });
 
