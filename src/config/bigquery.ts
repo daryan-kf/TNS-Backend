@@ -18,6 +18,7 @@ export const BQ = {
   },
   location: process.env.BIGQUERY_LOCATION,
 };
+
 // Helper: fully-qualified table id (omit project if not set)
 export const fq = (dataset: string, table: string) =>
   BQ.projectId

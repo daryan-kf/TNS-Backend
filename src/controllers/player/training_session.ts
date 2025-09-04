@@ -30,12 +30,11 @@ export const getPlayerSessions: RequestHandler = async (req, res, next) => {
         rmssd_ms,
         sdnn_ms,
         pnn50,
-        created_at
-      FROM ${fq(BQ.sports.dataset, BQ.sports.playerTraining)}
-      WHERE player_id = @playerId
-      ORDER BY start_time DESC
-      LIMIT @limit
-      OFFSET @offset
+      created_at
+        FROM ${fq(BQ.sports.dataset!, BQ.sports.playerTraining!)}
+        WHERE player_id = @playerId
+        ORDER BY start_time DESC
+        LIMIT @limit
     `;
 
     const [job] = await bq.createQueryJob({
