@@ -7,6 +7,7 @@ import {
 import {getAllPlayers, getPlayerById} from "@/src/controllers/player";
 
 import {searchPlayers} from "@/src/controllers/player/search";
+import {getPlayerSessions} from "@/src/controllers/player/training_session";
 
 const router = Router();
 
@@ -23,5 +24,6 @@ router.get("/:id", getPlayerById);
 router.post("/:id/assessment", addPlayerAssessment);
 router.get("/:id/assessment/:assessmentId", getPlayerAssessment);
 router.put("/:id/assessment/:assessmentId", updatePlayerAssessment);
+router.get("/:id/sessions", getPlayerSessions);
 
 export default router;
