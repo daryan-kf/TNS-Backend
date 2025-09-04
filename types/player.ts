@@ -40,3 +40,27 @@ export interface Player {
   weekly_summary: PlayerWeeklySummary;
   recovery_status: PlayerRecoveryStatus;
 }
+
+export type TrainingSessionRow = {
+  team_id: string;
+  training_id: string;
+  player_id: string;
+  player_session_id: string;
+  start_time: string;
+  stop_time: string;
+  duration_ms: number;
+  distance_meters: number;
+  calories: number;
+  training_load: number;
+  cardio_load: number;
+  muscle_load: number;
+  heart_rate_avg: number;
+  heart_rate_max: number;
+  sprints: number;
+  run_distance_m: number;
+  walk_distance_m: number;
+  rmssd_ms: number;
+  sdnn_ms: number;
+  pnn50: number;
+  created_at: string;
+};
