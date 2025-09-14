@@ -40,25 +40,6 @@ export const getPlayerAssessment = (req: Request, res: Response) => {
   console.log(
     `Fetching assessment for player: ${id} and assessment: ${assessmentId}`
   );
-
-  // TODO: Implement Supabase fetch
-  // const { data, error } = await supabase
-  //   .from('player_assessments')
-  //   .select('*')
-  //   .eq('player_id', id)
-  //   .order('created_at', { ascending: false })
-  //   .limit(1)
-  //   .single();
-
-  // TODO: Handle error cases
-  // if (error) {
-  //   return res.status(404).json({
-  //     success: false,
-  //     message: "Assessment not found",
-  //     error: error.message
-  //   });
-  // }
-
   // Mock response for now
   const mockAssessmentData: PlayerAssessmentData = {
     rangeOfMotion: "Excellent",
@@ -81,27 +62,6 @@ export const getPlayerAssessment = (req: Request, res: Response) => {
 export const updatePlayerAssessment = (req: Request, res: Response) => {
   const {id, assessmentId} = req.params;
   const updatedAssessmentData: Partial<PlayerAssessmentData> = req.body;
-
-  console.log({
-    playerId: id,
-    assessmentId,
-    updatedData: updatedAssessmentData,
-  });
-
-  // TODO: Handle error cases
-  // if (error) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: "Failed to update assessment",
-  //     error: error.message
-  //   });
-  // }
-
-  // TODO: Update BigQuery record as well
-  // const bigQueryUpdate = await bigQueryClient
-  //   .dataset('player_analytics')
-  //   .table('assessments')
-  //   .update({...updatedAssessmentData, player_id: id});
 
   res.json({
     success: true,
