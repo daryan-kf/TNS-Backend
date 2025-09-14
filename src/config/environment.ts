@@ -21,10 +21,6 @@ const envSchema = z.object({
     .string()
     .min(1, "Player timeseries table is required"),
 
-  // Supabase Configuration (if used)
-  SUPABASE_URL: z.string().url().optional(),
-  SUPABASE_ANON_KEY: z.string().optional(),
-
   // Security Configuration
   RATE_LIMIT_WINDOW_MS: z.coerce.number().default(900000), // 15 minutes
   RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(100),
