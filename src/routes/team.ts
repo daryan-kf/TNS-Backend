@@ -1,15 +1,30 @@
 import {Router} from "express";
+import {validate} from "@/src/middleware/validation";
+import {teamIdSchema} from "@/src/schemas/teams";
+
 import {
   getAllTeams,
-  getTeam,
-  getAllPlayersWithinTeam,
-} from "@/src/controllers/team";
+  getTeamById,
+  getTeamMembers,
+  getTeamMemberStats,
+} from "@/src/controllers/teams";
 
 const router = Router();
 
-// Team routes
+// Core team routes
 router.get("/", getAllTeams);
-router.get("/:teamId", getTeam);
-router.get("/:teamId/players", getAllPlayersWithinTeam);
+router.get("/:teamId", validate({params: teamIdSchema}), getTeamById);
+
+// Team member routes
+router.get(
+  "/:teamId/players",
+  validate({params: teamIdSchema}),
+  getTeamMembers
+);
+router.get(
+  "/:teamId/players/stats",
+  validate({params: teamIdSchema}),
+  getTeamMemberStats
+);
 
 export default router;

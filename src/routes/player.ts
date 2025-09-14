@@ -1,29 +1,55 @@
 import {Router} from "express";
+import {validate} from "@/src/middleware/validation";
 import {
-  addPlayerAssessment,
-  getPlayerAssessment,
-  updatePlayerAssessment,
-} from "@/src/controllers/player/assessment";
-import {getAllPlayers, getPlayerById} from "@/src/controllers/player";
+  playerIdSchema,
+  searchQuerySchema,
+  sessionQuerySchema,
+} from "@/src/schemas/players";
 
-import {searchPlayers} from "@/src/controllers/player/search";
-import {getPlayerSessions} from "@/src/controllers/player/training_session";
+// Import from new controller structure
+import {
+  getAllPlayers,
+  getPlayerById,
+  searchPlayers,
+  getPlayerSummary,
+} from "@/src/controllers/players/players.controller";
+
+import {
+  getPlayerSessions,
+  getPlayerSessionStats,
+} from "@/src/controllers/players/player-sessions.controller";
 
 const router = Router();
 
-// Player routes
+// Core player routes
 router.get("/", getAllPlayers);
 
-// Search routes (must come before /:id)
-router.get("/search", searchPlayers);
+// Search routes (must come before /:id to avoid conflicts)
+router.get("/search", validate({query: searchQuerySchema}), searchPlayers);
 
 // Specific player by ID (must come after /search)
-router.get("/:id", getPlayerById);
+router.get("/:id", validate({params: playerIdSchema}), getPlayerById);
 
-// Assessment routes
-router.post("/:id/assessment", addPlayerAssessment);
-router.get("/:id/assessment/:assessmentId", getPlayerAssessment);
-router.put("/:id/assessment/:assessmentId", updatePlayerAssessment);
-router.get("/:id/sessions", getPlayerSessions);
+router.get(
+  "/:id/summary",
+  validate({params: playerIdSchema}),
+  getPlayerSummary
+);
+
+// Training session routes
+router.get(
+  "/:id/sessions",
+  validate({
+    params: playerIdSchema,
+    query: sessionQuerySchema,
+  }),
+  getPlayerSessions
+);
+
+router.get(
+  "/:id/sessions/stats",
+  validate({params: playerIdSchema}),
+  getPlayerSessionStats
+);
 
 export default router;

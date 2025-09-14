@@ -84,8 +84,8 @@ app.get("/", (req, res) => {
 app.use("/players", playerRoutes);
 app.use("/teams", teamRoutes);
 
-// 404 handler for unmatched routes
-app.use((req, res) => {
+// 404 handler for unmatched routes - use a different pattern for Express 5
+app.use((req, res, next) => {
   logger.warn("Route not found", {
     url: req.originalUrl,
     method: req.method,
@@ -96,6 +96,7 @@ app.use((req, res) => {
     success: false,
     error: "Route not found",
     path: req.originalUrl,
+    method: req.method,
     timestamp: new Date().toISOString(),
   });
 });
