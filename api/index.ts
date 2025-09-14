@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import playerRoutes from "@/src/routes/player";
+import teamRoutes from "@/src/routes/team";
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.get("/", (req, res) => {
 
 // Player routes
 app.use("/players", playerRoutes);
+
+// Team routes
+app.use("/teams", teamRoutes);
 
 // Start server for local development (not on Vercel)
 if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {

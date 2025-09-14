@@ -1,5 +1,6 @@
 import express from "express";
 import playerRoutes from "@/src/routes/player";
+import teamRoutes from "@/src/routes/team";
 
 const app = express();
 const PORT = 3000;
@@ -18,6 +19,9 @@ app.get("/", (req, res) => {
 
 // Player routes
 app.use("/players", playerRoutes);
+
+// Team routes
+app.use("/teams", teamRoutes);
 
 // Start server
 app.listen(PORT, () => {

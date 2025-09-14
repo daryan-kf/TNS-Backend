@@ -41,6 +41,26 @@ export interface Player {
   recovery_status: PlayerRecoveryStatus;
 }
 
+export interface Team {
+  team_id: string;
+  name: string;
+  organisation: string;
+  created: string;
+  modified: string;
+}
+
+export interface TeamPlayer {
+  team_id: string;
+  player_id: string;
+  player_number: number;
+  first_name: string;
+  last_name: string;
+  role: string;
+  status: string;
+  created: string;
+  modified: string;
+}
+
 export type TrainingSessionRow = {
   team_id: string;
   training_id: string;
