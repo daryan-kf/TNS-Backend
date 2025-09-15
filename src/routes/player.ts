@@ -14,10 +14,7 @@ import {
   getPlayerSummary,
 } from "@/src/controllers/players/players.controller";
 
-import {
-  getPlayerSessions,
-  getPlayerSessionStats,
-} from "@/src/controllers/players/player-sessions.controller";
+import {getPlayerSessions} from "@/src/controllers/players/player-sessions.controller";
 
 const router = Router();
 
@@ -44,12 +41,6 @@ router.get(
     query: sessionQuerySchema,
   }),
   getPlayerSessions
-);
-
-router.get(
-  "/:id/sessions/stats",
-  validate({params: playerIdSchema}),
-  getPlayerSessionStats
 );
 
 export default router;
