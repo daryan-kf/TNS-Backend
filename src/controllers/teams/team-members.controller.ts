@@ -87,75 +87,90 @@ export const getTeamMembers = async (req: Request, res: Response) => {
 };
 
 /**
- * Get team member statistics
- * GET /teams/:teamId/players/stats
+ * Get a specific player by ID within a team
+ * GET /teams/:teamId/players/:playerId
  */
-export const getTeamMemberStats = async (req: Request, res: Response) => {
+export const getTeamPlayerById = async (req: Request, res: Response) => {
   try {
-    const {teamId} = req.params;
+    const {teamId, playerId} = req.params;
 
-    logger.info("Retrieving team member statistics", {
+    logger.info("Retrieving team player by ID", {
       teamId,
+      playerId,
       ip: req.ip,
     });
 
     const sql = `
       SELECT 
-        COUNT(*) as total_players,
-        COUNT(CASE WHEN status = 'active' THEN 1 END) as active_players,
-        COUNT(CASE WHEN status = 'inactive' THEN 1 END) as inactive_players,
-        COUNT(DISTINCT role) as unique_roles,
-        STRING_AGG(DISTINCT role, ', ') as all_roles
+        team_id,
+        player_id,
+        player_number,
+        first_name,
+        last_name,
+        role,
+        status,
+        created,
+        modified
       FROM ${fq(BQ.sports.dataset!, "players")}
-      WHERE team_id = @teamId
+      WHERE team_id = @teamId AND player_id = @playerId
     `;
 
     const startTime = Date.now();
-    const rows = await createSafeQueryJob(sql, {teamId});
+    const rows = await createSafeQueryJob(sql, {teamId, playerId});
     const queryDuration = Date.now() - startTime;
 
     logQuery(sql, queryDuration);
 
     if (rows.length === 0) {
-      return successResponse(res, "No players found for team", {
+      logger.warn("Team player not found", {
         teamId,
-        stats: null,
+        playerId,
+        ip: req.ip,
+      });
+
+      return res.status(404).json({
+        success: false,
+        message: "Player not found in this team",
+        data: null,
       });
     }
 
-    const stats = {
-      teamId,
-      playerStats: {
-        total: parseInt(rows[0].total_players) || 0,
-        active: parseInt(rows[0].active_players) || 0,
-        inactive: parseInt(rows[0].inactive_players) || 0,
-        uniqueRoles: parseInt(rows[0].unique_roles) || 0,
-        roles: rows[0].all_roles ? rows[0].all_roles.split(", ") : [],
-      },
+    const player: TeamPlayer = {
+      team_id: rows[0].team_id,
+      player_id: rows[0].player_id,
+      player_number: rows[0].player_number,
+      first_name: rows[0].first_name,
+      last_name: rows[0].last_name,
+      role: rows[0].role,
+      status: rows[0].status,
+      created: rows[0].created?.value || rows[0].created,
+      modified: rows[0].modified?.value || rows[0].modified,
     };
 
-    logger.info("Team member statistics retrieved successfully", {
+    logger.info("Team player retrieved successfully", {
       teamId,
-      totalPlayers: stats.playerStats.total,
+      playerId,
       queryDuration: `${queryDuration}ms`,
       ip: req.ip,
     });
 
     return successResponse(
       res,
-      "Team member statistics retrieved successfully",
-      stats
+      `Team player retrieved successfully`,
+      {
+        teamId,
+        player: player,
+      },
+      1
     );
   } catch (error: any) {
-    logger.error("Failed to retrieve team member statistics", {
+    logger.error("Failed to retrieve team player", {
       error: error.message,
       teamId: req.params.teamId,
+      playerId: req.params.playerId,
       ip: req.ip,
     });
 
-    return internalServerErrorResponse(
-      res,
-      "Failed to retrieve team member statistics"
-    );
+    return internalServerErrorResponse(res, "Failed to retrieve team player");
   }
 };
