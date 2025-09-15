@@ -17,7 +17,9 @@ export const validate = (schema: {
 
       // Validate query if schema provided
       if (schema.query) {
-        req.query = schema.query.parse(req.query) as any;
+        const validatedQuery = schema.query.parse(req.query) as any;
+
+        (req as any).validatedQuery = validatedQuery;
       }
 
       // Validate body if schema provided
@@ -88,12 +90,11 @@ export const sanitizeInput = (
     req.body = sanitizeObject(req.body);
   }
 
-  // Sanitize query parameters - modify properties instead of replacing the object
+  // Sanitize query parameters
   if (req.query) {
     const sanitizedQuery = sanitizeObject(req.query);
-    // Clear existing properties and add sanitized ones
-    Object.keys(req.query).forEach(key => delete req.query[key]);
-    Object.assign(req.query, sanitizedQuery);
+    // Store sanitized query in a custom property
+    (req as any).sanitizedQuery = sanitizedQuery;
   }
 
   next();
