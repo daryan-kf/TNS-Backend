@@ -27,18 +27,18 @@ router.get(
   getTeamMembers
 );
 
+// Team player search route (must come before player-by-ID route)
+router.get(
+  "/:teamId/players/search",
+  validate({params: teamIdSchema, query: teamPlayerSearchSchema}),
+  searchTeamPlayers
+);
+
 // Team player by ID route
 router.get(
   "/:teamId/players/:playerId",
   validate({params: teamPlayerParamsSchema}),
   getTeamPlayerById
-);
-
-// Team player search route
-router.get(
-  "/:teamId/players/search",
-  validate({params: teamIdSchema, query: teamPlayerSearchSchema}),
-  searchTeamPlayers
 );
 
 export default router;

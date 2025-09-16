@@ -46,17 +46,17 @@ export const teamPlayerSearchSchema = z.object({
     .string()
     .max(100, "Search query too long")
     .optional()
-    .transform(val => val?.trim() || ""),
+    .transform(val => val?.trim() || undefined),
   role: z
     .string()
     .max(50, "Role too long")
     .optional()
-    .transform(val => val?.trim() || ""),
+    .transform(val => val?.trim() || undefined),
   status: z
     .string()
     .max(50, "Status too long")
     .optional()
-    .transform(val => val?.trim() || ""),
+    .transform(val => val?.trim() || undefined),
   limit: z.coerce
     .number()
     .int("Limit must be an integer")
