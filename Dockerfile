@@ -30,7 +30,7 @@ RUN chown -R nextjs:nodejs /app
 USER nextjs
 
 # Expose port (Cloud Run will set PORT env var)
-EXPOSE 8080
+EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
