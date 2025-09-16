@@ -10,23 +10,26 @@ import {TeamPlayer} from "@/types";
 /**
  * Search players within a team
  * GET /teams/:teamId/players/search
+ *
+ * Query parameters (all optional):
+ * - query: Search in player names and numbers
+ * - role: Filter by player role
+ * - status: Filter by player status
+ * - limit: Number of results (1-100, default 50)
+ * - offset: Pagination offset (default 0)
+ *
+ * If no search parameters are provided, returns all players for the team.
  */
 export const searchTeamPlayers = async (req: Request, res: Response) => {
   try {
     const {teamId} = req.params;
-    const {
-      query = "",
-      role = "",
-      status = "",
-      limit = 50,
-      offset = 0,
-    } = req.query;
+    const {query, role, status, limit = 50, offset = 0} = req.query;
 
     logger.info("Searching team players", {
       teamId,
-      query,
-      role,
-      status,
+      query: query || null,
+      role: role || null,
+      status: status || null,
       limit,
       offset,
       ip: req.ip,
@@ -37,7 +40,7 @@ export const searchTeamPlayers = async (req: Request, res: Response) => {
     const params: any = {teamId};
 
     // Add search query condition (searches in first_name, last_name, and player_number)
-    if (query && typeof query === "string" && query.trim()) {
+    if (query && typeof query === "string" && query.trim().length > 0) {
       conditions.push(
         `(LOWER(first_name) LIKE LOWER(@searchQuery) OR 
          LOWER(last_name) LIKE LOWER(@searchQuery) OR 
@@ -47,13 +50,13 @@ export const searchTeamPlayers = async (req: Request, res: Response) => {
     }
 
     // Add role filter
-    if (role && typeof role === "string" && role.trim()) {
+    if (role && typeof role === "string" && role.trim().length > 0) {
       conditions.push(`LOWER(role) = LOWER(@role)`);
       params.role = role.trim();
     }
 
     // Add status filter
-    if (status && typeof status === "string" && status.trim()) {
+    if (status && typeof status === "string" && status.trim().length > 0) {
       conditions.push(`LOWER(status) = LOWER(@status)`);
       params.status = status.trim();
     }
@@ -113,9 +116,9 @@ export const searchTeamPlayers = async (req: Request, res: Response) => {
 
     logger.info("Team players search completed", {
       teamId,
-      query,
-      role,
-      status,
+      query: query || null,
+      role: role || null,
+      status: status || null,
       resultsCount: players.length,
       totalCount,
       limit: params.limit,
@@ -154,7 +157,7 @@ export const searchTeamPlayers = async (req: Request, res: Response) => {
     logger.error("Failed to search team players", {
       error: error.message,
       teamId: req.params.teamId,
-      query: req.query.query,
+      query: req.query.query || null,
       ip: req.ip,
     });
 
