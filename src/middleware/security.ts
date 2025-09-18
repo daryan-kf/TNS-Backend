@@ -41,8 +41,8 @@ export const corsOptions = {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
 
-    // In production, allow all origins if "*" is specified (for mobile apps)
-    if (allowedOrigins.includes("*") && env.NODE_ENV === "production") {
+    // Allow all origins if "*" is specified (for mobile apps in testing and production)
+    if (allowedOrigins.includes("*")) {
       return callback(null, true);
     }
 
