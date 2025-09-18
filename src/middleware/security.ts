@@ -41,7 +41,12 @@ export const corsOptions = {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
+    // In production, allow all origins if "*" is specified (for mobile apps)
+    if (allowedOrigins.includes("*") && env.NODE_ENV === "production") {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes("*")) {
       callback(null, true);
     } else {
       logger.warn("CORS blocked request", {origin, allowedOrigins});
@@ -50,7 +55,13 @@ export const corsOptions = {
   },
   credentials: true, // Allow cookies to be sent
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+  ],
   maxAge: 86400, // Cache preflight response for 24 hours
 };
 

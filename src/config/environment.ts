@@ -26,7 +26,7 @@ const envSchema = z.object({
   RATE_LIMIT_MAX_REQUESTS: z.coerce.number().default(100),
   ALLOWED_ORIGINS: z
     .string()
-    .default("http://localhost:3000,http://localhost:5173"),
+    .default("http://localhost:3000,http://localhost:5173,*"),
 });
 
 // Validate environment variables on startup
