@@ -22,6 +22,7 @@ import {errorHandler} from "@/src/middleware/errorHandler";
 // Import routes
 import playerRoutes from "@/src/routes/player";
 import teamRoutes from "@/src/routes/team";
+import aiRoutes from "@/src/routes/ai";
 
 const app = express();
 
@@ -83,6 +84,7 @@ app.get("/", (req, res) => {
 // API Routes
 app.use("/players", playerRoutes);
 app.use("/teams", teamRoutes);
+app.use("/ai", aiRoutes);
 
 // 404 handler for unmatched routes - use a different pattern for Express 5
 app.use((req, res, next) => {
