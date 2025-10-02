@@ -1,10 +1,10 @@
-import {Router} from "express";
-import {validate} from "@/src/middleware/validation";
+import { Router } from 'express';
+import { validate } from '@/src/middleware/validation';
 import {
   playerIdSchema,
   searchQuerySchema,
   sessionQuerySchema,
-} from "@/src/schemas/players";
+} from '@/src/schemas/players';
 
 // Import from new controller structure
 import {
@@ -12,30 +12,30 @@ import {
   getPlayerById,
   searchPlayers,
   getPlayerSummary,
-} from "@/src/controllers/players/players.controller";
+} from '@/src/controllers/players/players.controller';
 
-import {getPlayerSessions} from "@/src/controllers/players/player-sessions.controller";
+import { getPlayerSessions } from '@/src/controllers/players/player-sessions.controller';
 
 const router = Router();
 
 // Core player routes
-router.get("/", getAllPlayers);
+router.get('/', getAllPlayers);
 
 // Search routes (must come before /:id to avoid conflicts)
-router.get("/search", validate({query: searchQuerySchema}), searchPlayers);
+router.get('/search', validate({ query: searchQuerySchema }), searchPlayers);
 
 // Specific player by ID (must come after /search)
-router.get("/:id", validate({params: playerIdSchema}), getPlayerById);
+router.get('/:id', validate({ params: playerIdSchema }), getPlayerById);
 
 router.get(
-  "/:id/summary",
-  validate({params: playerIdSchema}),
+  '/:id/summary',
+  validate({ params: playerIdSchema }),
   getPlayerSummary
 );
 
 // Training session routes
 router.get(
-  "/:id/sessions",
+  '/:id/sessions',
   validate({
     params: playerIdSchema,
     query: sessionQuerySchema,

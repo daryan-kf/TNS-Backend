@@ -1,6 +1,6 @@
-import {Request, Response, NextFunction} from "express";
-import {z, ZodSchema, ZodError} from "zod";
-import {logger} from "@/src/utils/logger";
+import { Request, Response, NextFunction } from 'express';
+import { ZodSchema, ZodError } from 'zod';
+import { logger } from '@/src/utils/logger';
 
 // Generic validation middleware factory
 export const validate = (schema: {
@@ -30,7 +30,7 @@ export const validate = (schema: {
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        logger.warn("Validation error", {
+        logger.warn('Validation error', {
           url: req.url,
           method: req.method,
           errors: error.issues,
@@ -39,12 +39,12 @@ export const validate = (schema: {
 
         return res.status(400).json({
           success: false,
-          error: "Validation failed",
+          error: 'Validation failed',
           details: error.issues.map(error => ({
-            path: error.path.join("."),
+            path: error.path.join('.'),
             message: error.message,
-            ...(error.code === "invalid_type" && "received" in error
-              ? {received: error.received}
+            ...(error.code === 'invalid_type' && 'received' in error
+              ? { received: error.received }
               : {}),
           })),
         });
@@ -63,10 +63,10 @@ export const sanitizeInput = (
 ) => {
   // Recursively sanitize strings in objects
   const sanitizeObject = (obj: any): any => {
-    if (typeof obj === "string") {
+    if (typeof obj === 'string') {
       // Remove potential XSS characters
       return obj
-        .replace(/[<>\"']/g, "") // Remove HTML characters
+        .replace(/[<>"']/g, '') // Remove HTML characters
         .trim(); // Remove whitespace
     }
 
@@ -74,7 +74,7 @@ export const sanitizeInput = (
       return obj.map(sanitizeObject);
     }
 
-    if (obj && typeof obj === "object") {
+    if (obj && typeof obj === 'object') {
       const sanitized: any = {};
       for (const [key, value] of Object.entries(obj)) {
         sanitized[key] = sanitizeObject(value);
@@ -117,7 +117,7 @@ export const preventSQLInjection = (
   };
 
   const checkObject = (obj: any): boolean => {
-    if (typeof obj === "string") {
+    if (typeof obj === 'string') {
       return checkForSQL(obj);
     }
 
@@ -125,7 +125,7 @@ export const preventSQLInjection = (
       return obj.some(checkObject);
     }
 
-    if (obj && typeof obj === "object") {
+    if (obj && typeof obj === 'object') {
       return Object.values(obj).some(checkObject);
     }
 
@@ -134,7 +134,7 @@ export const preventSQLInjection = (
 
   // Check query parameters
   if (req.query && checkObject(req.query)) {
-    logger.warn("Potential SQL injection attempt in query", {
+    logger.warn('Potential SQL injection attempt in query', {
       ip: req.ip,
       url: req.url,
       query: req.query,
@@ -142,13 +142,13 @@ export const preventSQLInjection = (
 
     return res.status(400).json({
       success: false,
-      error: "Invalid characters detected in request",
+      error: 'Invalid characters detected in request',
     });
   }
 
   // Check request body
   if (req.body && checkObject(req.body)) {
-    logger.warn("Potential SQL injection attempt in body", {
+    logger.warn('Potential SQL injection attempt in body', {
       ip: req.ip,
       url: req.url,
       body: req.body,
@@ -156,7 +156,7 @@ export const preventSQLInjection = (
 
     return res.status(400).json({
       success: false,
-      error: "Invalid characters detected in request",
+      error: 'Invalid characters detected in request',
     });
   }
 

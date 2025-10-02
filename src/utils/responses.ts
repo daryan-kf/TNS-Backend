@@ -1,4 +1,4 @@
-import {Response} from "express";
+import { Response } from 'express';
 
 // Standard API response interface
 export interface ApiResponse<T = any> {
@@ -22,10 +22,10 @@ export const createResponse = <T>(
 ): ApiResponse<T> => ({
   success,
   message,
-  ...(data !== undefined && {data}),
-  ...(error && {error}),
-  ...(details && {details}),
-  ...(count !== undefined && {count}),
+  ...(data !== undefined && { data }),
+  ...(error && { error }),
+  ...(details && { details }),
+  ...(count !== undefined && { count }),
   timestamp: new Date().toISOString(),
 });
 
@@ -65,51 +65,51 @@ export const errorResponse = (
 
 export const badRequestResponse = (
   res: Response,
-  message: string = "Bad request",
+  message: string = 'Bad request',
   details?: any
 ) => {
-  return errorResponse(res, message, "Bad request", 400, details);
+  return errorResponse(res, message, 'Bad request', 400, details);
 };
 
 export const notFoundResponse = (
   res: Response,
-  resource: string = "Resource"
+  resource: string = 'Resource'
 ) => {
-  return errorResponse(res, `${resource} not found`, "Not found", 404);
+  return errorResponse(res, `${resource} not found`, 'Not found', 404);
 };
 
 export const unauthorizedResponse = (
   res: Response,
-  message: string = "Unauthorized"
+  message: string = 'Unauthorized'
 ) => {
-  return errorResponse(res, message, "Unauthorized", 401);
+  return errorResponse(res, message, 'Unauthorized', 401);
 };
 
 export const forbiddenResponse = (
   res: Response,
-  message: string = "Forbidden"
+  message: string = 'Forbidden'
 ) => {
-  return errorResponse(res, message, "Forbidden", 403);
+  return errorResponse(res, message, 'Forbidden', 403);
 };
 
 export const conflictResponse = (
   res: Response,
-  message: string = "Resource already exists"
+  message: string = 'Resource already exists'
 ) => {
-  return errorResponse(res, message, "Conflict", 409);
+  return errorResponse(res, message, 'Conflict', 409);
 };
 
 export const validationErrorResponse = (
   res: Response,
   details: any,
-  message: string = "Validation failed"
+  message: string = 'Validation failed'
 ) => {
-  return errorResponse(res, message, "Validation error", 422, details);
+  return errorResponse(res, message, 'Validation error', 422, details);
 };
 
 export const internalServerErrorResponse = (
   res: Response,
-  message: string = "Internal server error"
+  message: string = 'Internal server error'
 ) => {
-  return errorResponse(res, message, "Internal server error", 500);
+  return errorResponse(res, message, 'Internal server error', 500);
 };

@@ -1,39 +1,39 @@
-import {z} from "zod";
+import { z } from 'zod';
 
 // Team ID parameter schema
 export const teamIdSchema = z.object({
   teamId: z
     .string()
-    .min(1, "Team ID is required")
-    .max(50, "Team ID too long")
-    .regex(/^[a-zA-Z0-9\-_]+$/, "Team ID contains invalid characters"),
+    .min(1, 'Team ID is required')
+    .max(50, 'Team ID too long')
+    .regex(/^[a-zA-Z0-9\-_]+$/, 'Team ID contains invalid characters'),
 });
 
 // Team player parameters schema (teamId + playerId)
 export const teamPlayerParamsSchema = z.object({
   teamId: z
     .string()
-    .min(1, "Team ID is required")
-    .max(50, "Team ID too long")
-    .regex(/^[a-zA-Z0-9\-_]+$/, "Team ID contains invalid characters"),
+    .min(1, 'Team ID is required')
+    .max(50, 'Team ID too long')
+    .regex(/^[a-zA-Z0-9\-_]+$/, 'Team ID contains invalid characters'),
   playerId: z
     .string()
-    .min(1, "Player ID is required")
-    .max(50, "Player ID too long")
-    .regex(/^[a-zA-Z0-9\-_]+$/, "Player ID contains invalid characters"),
+    .min(1, 'Player ID is required')
+    .max(50, 'Player ID too long')
+    .regex(/^[a-zA-Z0-9\-_]+$/, 'Player ID contains invalid characters'),
 });
 
 // Team creation schema (if you add team creation later)
 export const createTeamSchema = z.object({
   name: z
     .string()
-    .min(1, "Team name is required")
-    .max(100, "Team name too long")
+    .min(1, 'Team name is required')
+    .max(100, 'Team name too long')
     .trim(),
   organisation: z
     .string()
-    .min(1, "Organisation is required")
-    .max(100, "Organisation name too long")
+    .min(1, 'Organisation is required')
+    .max(100, 'Organisation name too long')
     .trim(),
 });
 
@@ -44,29 +44,29 @@ export const updateTeamSchema = createTeamSchema.partial();
 export const teamPlayerSearchSchema = z.object({
   query: z
     .string()
-    .max(100, "Search query too long")
+    .max(100, 'Search query too long')
     .optional()
     .transform(val => val?.trim() || undefined),
   role: z
     .string()
-    .max(50, "Role too long")
+    .max(50, 'Role too long')
     .optional()
     .transform(val => val?.trim() || undefined),
   status: z
     .string()
-    .max(50, "Status too long")
+    .max(50, 'Status too long')
     .optional()
     .transform(val => val?.trim() || undefined),
   limit: z.coerce
     .number()
-    .int("Limit must be an integer")
-    .min(1, "Limit must be at least 1")
-    .max(100, "Limit cannot exceed 100")
+    .int('Limit must be an integer')
+    .min(1, 'Limit must be at least 1')
+    .max(100, 'Limit cannot exceed 100')
     .default(50),
   offset: z.coerce
     .number()
-    .int("Offset must be an integer")
-    .min(0, "Offset cannot be negative")
+    .int('Offset must be an integer')
+    .min(0, 'Offset cannot be negative')
     .default(0),
 });
 
