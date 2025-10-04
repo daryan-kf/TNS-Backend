@@ -1,12 +1,12 @@
-import "dotenv/config";
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import compression from "compression";
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
 
 // Import configuration
-import {env} from "@/src/config/environment";
-import {logger} from "@/src/utils/logger";
+import { env } from '@/src/config/environment';
+import { logger } from '@/src/utils/logger';
 
 // Import middleware
 import {
@@ -15,19 +15,22 @@ import {
   requestSizeLimit,
   securityHeaders,
   requestLogger,
-} from "@/src/middleware/security";
-import {sanitizeInput, preventSQLInjection} from "@/src/middleware/validation";
-import {errorHandler} from "@/src/middleware/errorHandler";
+} from '@/src/middleware/security';
+import {
+  sanitizeInput,
+  preventSQLInjection,
+} from '@/src/middleware/validation';
+import { errorHandler } from '@/src/middleware/errorHandler';
 
 // Import routes
-import playerRoutes from "@/src/routes/player";
-import teamRoutes from "@/src/routes/team";
-import aiRoutes from "@/src/routes/ai";
+import playerRoutes from '@/src/routes/player';
+import teamRoutes from '@/src/routes/team';
+import askRoutes from '@/src/routes/ask';
 
 const app = express();
 
 // Trust proxy (important for rate limiting and IP detection)
-app.set("trust proxy", 1);
+app.set('trust proxy', 1);
 
 // Apply security middleware first
 app.use(
@@ -44,8 +47,8 @@ app.use(cors(corsOptions));
 
 // Request parsing and size limiting
 app.use(requestSizeLimit);
-app.use(express.json({limit: "10mb"}));
-app.use(express.urlencoded({extended: true, limit: "10mb"}));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Security and logging middleware
 app.use(requestLogger);
@@ -53,9 +56,9 @@ app.use(sanitizeInput);
 app.use(preventSQLInjection);
 
 // Health check endpoint (no rate limiting)
-app.get("/health", (req, res) => {
+app.get('/health', (req, res) => {
   res.status(200).json({
-    status: "healthy",
+    status: 'healthy',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     environment: env.NODE_ENV,
@@ -63,32 +66,32 @@ app.get("/health", (req, res) => {
 });
 
 // Main route
-app.get("/", (req, res) => {
-  logger.info("Home route accessed", {ip: req.ip});
+app.get('/', (req, res) => {
+  logger.info('Home route accessed', { ip: req.ip });
   res.json({
-    message: "TNS Backend API Running Securely! 🚀🔒",
-    version: "1.0.0",
+    message: 'TNS Backend API Running Securely! 🚀🔒',
+    version: '1.0.0',
     environment: env.NODE_ENV,
     timestamp: new Date().toISOString(),
     security: {
       rateLimit: `${env.RATE_LIMIT_MAX_REQUESTS} requests per ${
         env.RATE_LIMIT_WINDOW_MS / 60000
       } minutes`,
-      cors: "enabled",
-      helmet: "enabled",
-      validation: "enabled",
+      cors: 'enabled',
+      helmet: 'enabled',
+      validation: 'enabled',
     },
   });
 });
 
 // API Routes
-app.use("/players", playerRoutes);
-app.use("/teams", teamRoutes);
-app.use("/ai", aiRoutes);
+app.use('/players', playerRoutes);
+app.use('/teams', teamRoutes);
+app.use('/ask', askRoutes);
 
 // 404 handler for unmatched routes - use a different pattern for Express 5
 app.use((req, res, next) => {
-  logger.warn("Route not found", {
+  logger.warn('Route not found', {
     url: req.originalUrl,
     method: req.method,
     ip: req.ip,
@@ -96,7 +99,7 @@ app.use((req, res, next) => {
 
   res.status(404).json({
     success: false,
-    error: "Route not found",
+    error: 'Route not found',
     path: req.originalUrl,
     method: req.method,
     timestamp: new Date().toISOString(),
@@ -119,13 +122,13 @@ if (!process.env.VERCEL) {
 }
 
 // Graceful shutdown handling
-process.on("SIGTERM", () => {
-  logger.info("SIGTERM received, shutting down gracefully");
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM received, shutting down gracefully');
   process.exit(0);
 });
 
-process.on("SIGINT", () => {
-  logger.info("SIGINT received, shutting down gracefully");
+process.on('SIGINT', () => {
+  logger.info('SIGINT received, shutting down gracefully');
   process.exit(0);
 });
 
