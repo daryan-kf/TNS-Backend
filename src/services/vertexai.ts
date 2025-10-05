@@ -23,11 +23,12 @@ export interface VertexAIResponse {
 }
 
 // Configuration
-const DEFAULT_MODEL = 'gemini-2.5-flash';
+const DEFAULT_MODEL = 'gemini-2.5-flash'; // more capable by default
 const DEFAULT_TEMPERATURE = 0.7;
 const DEFAULT_TOP_K = 40;
 const DEFAULT_TOP_P = 0.95;
-const DEFAULT_MAX_TOKENS = 1024;
+// Do NOT cap output unless caller specifies it
+const DEFAULT_MAX_TOKENS: number | undefined = undefined;
 
 class VertexAIService {
   private readonly genAI: GoogleGenerativeAI;
@@ -53,18 +54,47 @@ class VertexAIService {
         maxTokens: request.maxOutputTokens,
       });
 
+      // Build generation config without forcing maxOutputTokens
+      const generationConfig: Record<string, unknown> = {
+        temperature: request.temperature ?? DEFAULT_TEMPERATURE,
+        topK: request.topK ?? DEFAULT_TOP_K,
+        topP: request.topP ?? DEFAULT_TOP_P,
+      };
+      const effectiveMax = request.maxOutputTokens ?? DEFAULT_MAX_TOKENS;
+      if (typeof effectiveMax === 'number') {
+        generationConfig.maxOutputTokens = effectiveMax;
+      }
+
       const model = this.genAI.getGenerativeModel({
         model: modelName,
-        generationConfig: {
-          temperature: request.temperature ?? DEFAULT_TEMPERATURE,
-          topK: request.topK ?? DEFAULT_TOP_K,
-          topP: request.topP ?? DEFAULT_TOP_P,
-          maxOutputTokens: request.maxOutputTokens ?? DEFAULT_MAX_TOKENS,
-        },
+        generationConfig: generationConfig as any,
       });
 
       const result = await model.generateContent(request.prompt);
-      const text = result.response.text() || 'No response generated';
+      // Prefer response.text(), but fall back to aggregating parts
+      let text = result.response.text()?.trim() || '';
+
+      if (!text) {
+        const parts =
+          result.response.candidates?.[0]?.content?.parts
+            ?.map((p: any) => (typeof p?.text === 'string' ? p.text : ''))
+            .filter(Boolean)
+            .join('\n')
+            .trim() || '';
+        text = parts;
+      }
+
+      // If still empty, surface finish reason / safety blocks explicitly
+      if (!text) {
+        const candidate = result.response.candidates?.[0];
+        const finish = candidate?.finishReason;
+        const safety = candidate?.safetyRatings;
+        const blocked = safety?.some((s: any) => s?.blocked)
+          ? ' (safety-blocked)'
+          : '';
+        const reason = finish ? `finishReason=${finish}` : 'unknown';
+        throw new Error(`Empty model response${blocked}; ${reason}`);
+      }
 
       logger.info('Generative AI response generated successfully', {
         responseLength: text.length,
