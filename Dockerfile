@@ -46,9 +46,9 @@ USER tns-backend
 EXPOSE 3000
 ENV PORT=3000
 
-# Health check
+# Health check (removed wget dependency for Cloud Run compatibility)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+  CMD node -e "require('http').get('http://localhost:3000/health', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
 
 # Start the application with dumb-init
 ENTRYPOINT ["dumb-init", "--"]
