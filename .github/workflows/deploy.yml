@@ -9,7 +9,6 @@ env:
   SERVICE_NAME: tns-backend
   REGION: ${{ secrets.GCP_REGION }}
   REGISTRY: gcr.io
-  VERTEX_LOCATION: ${{ secrets.VERTEX_LOCATION }}
 
 jobs:
   deploy:
@@ -18,10 +17,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Use Node.js 18
+      - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
@@ -44,9 +43,13 @@ jobs:
       - name: Setup Google Cloud CLI
         uses: google-github-actions/setup-gcloud@v2
 
-      - name: Build and push Docker image with Cloud Build
+      - name: Configure Docker for GCR
+        run: gcloud auth configure-docker gcr.io
+
+      - name: Build and push Docker image
         run: |
-          gcloud builds submit --tag ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} --project ${{ env.PROJECT_ID }}
+          docker build -t ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} .
+          docker push ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
 
       - name: Deploy to Cloud Run (update-only)
         run: |
