@@ -19,7 +19,7 @@
     "sourceMap": false
   },
   "include": ["api/**/*", "src/**/*", "types/**/*"],
-  "exclude": ["node_modules", "dist", ".vercel"],
+  "exclude": ["node_modules", "dist"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }
