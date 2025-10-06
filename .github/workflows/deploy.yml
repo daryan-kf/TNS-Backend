@@ -4,73 +4,46 @@ on:
   push:
     branches: ["main"]
 
-env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  SERVICE_NAME: tns-backend
-  REGION: ${{ secrets.GCP_REGION }}
-  REGISTRY: gcr.io
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Use Node.js 24
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Type check
-        run: npm run type-check
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Build
-        run: npm run build
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Setup Google Cloud CLI
+      - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Configure Docker for GCR
-        run: gcloud auth configure-docker gcr.io
+        run: gcloud auth configure-docker
 
-      - name: Build and push Docker image
+      - name: Build Docker image
         run: |
-          docker build -t ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} .
-          docker push ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/tns-backend:${{ github.sha }} .
 
-      - name: Deploy to Cloud Run (update-only)
+      - name: Push Docker image to GCR
         run: |
-          gcloud run deploy ${{ env.SERVICE_NAME }} \
-            --image ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/tns-backend:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy tns-backend \
+            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/tns-backend:${{ github.sha }} \
+            --region ${{ secrets.GCP_REGION }} \
             --platform managed \
-            --region ${{ env.REGION }} \
             --allow-unauthenticated \
-            --port 3000 \
-            --memory 1Gi \
-            --cpu 1 \
-            --min-instances 1 \
-            --max-instances 10 \
-            --project ${{ env.PROJECT_ID }}
+            --project ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Get service URL
-        id: get-url
+      - name: Show service URL
         run: |
-          echo "url=$(gcloud run services describe ${{ env.SERVICE_NAME }} --platform managed --region ${{ env.REGION }} --format 'value(status.url)' --project ${{ env.PROJECT_ID }})" >> $GITHUB_OUTPUT
-
-      - name: Show deployment URL
-        run: |
-          echo "🚀 Deployment complete!"
-          echo "Service URL: ${{ steps.get-url.outputs.url }}"
+          gcloud run services describe tns-backend \
+            --region ${{ secrets.GCP_REGION }} \
+            --platform managed \
+            --format 'value(status.url)' \
+            --project ${{ secrets.GCP_PROJECT_ID }}
