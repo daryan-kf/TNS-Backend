@@ -20,21 +20,21 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-      - name: Configure Docker for GCR
-        run: gcloud auth configure-docker
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker europe-north2-docker.pkg.dev
 
       - name: Build Docker image
         run: |
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/tns-backend:${{ github.sha }} .
+          docker build -t europe-north2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/tns-backend-github-deploy/tns-backend:${{ github.sha }} .
 
-      - name: Push Docker image to GCR
+      - name: Push Docker image to Artifact Registry
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/tns-backend:${{ github.sha }}
+          docker push europe-north2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/tns-backend-github-deploy/tns-backend:${{ github.sha }}
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy tns-backend \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/tns-backend:${{ github.sha }} \
+            --image europe-north2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/tns-backend-github-deploy/tns-backend:${{ github.sha }} \
             --region ${{ secrets.GCP_REGION }} \
             --platform managed \
             --allow-unauthenticated \

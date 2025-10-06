@@ -10,19 +10,20 @@ set -e
 PROJECT_ID="twinspire-neural-solutions"
 SERVICE_NAME="tns-backend"
 REGION="europe-north2"
-IMAGE_NAME="gcr.io/$PROJECT_ID/$SERVICE_NAME"
+AR_REPO="tns-backend-github-deploy"
+IMAGE_NAME="europe-north2-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE_NAME"
 
 echo "🚀 Deploying TNS Backend to Cloud Run..."
 
 # Authenticate with gcloud
-echo "🔐 Checking authentication..."
-gcloud auth configure-docker
+echo "🔐 Configuring Docker for Artifact Registry..."
+gcloud auth configure-docker europe-north2-docker.pkg.dev
 
 # Build and push Docker image
 echo "📦 Building Docker image..."
 docker build -t $IMAGE_NAME:latest .
 
-echo "⬆️ Pushing image to Google Container Registry..."
+echo "⬆️ Pushing image to Artifact Registry..."
 docker push $IMAGE_NAME:latest
 
 # Deploy to Cloud Run (update-only, keeps existing env vars)
